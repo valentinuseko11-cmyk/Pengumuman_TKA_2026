@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hasil TKA 2026 - SD Negeri Purwoprajan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #007bff;
+            --primary-dark: #0056b3;
+            --secondary: #ffc107;
+            --success: #28a745;
+            --info: #17a2b8;
+            --light: #f8f9fa;
+            --dark: #343a40;
+            --text-color: #333;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e0f7fa 0%, #bbdefb 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 600px;
+            padding: 40px 30px;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .header-logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+
+        .header-title {
+            color: var(--primary-dark);
+            font-weight: 700;
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .header-subtitle {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 30px;
+        }
+
+        .search-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .search-input {
+            padding: 15px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+        }
+
+        .search-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .result-card {
+            display: none;
+            background: var(--light);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: left;
+            border-left: 5px solid var(--success);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .student-name-display {
+            font-size: 20px;
+            color: var(--dark);
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 10px;
+        }
+
+        .data-row {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 12px;
+        }
+
+        .data-label {
+            font-size: 12px;
+            color: #777;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .data-value {
+            font-size: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .score-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .score-box {
+            flex: 1;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .score-math { background-color: #ffeeba; border: 1px solid #ffdf7e; }
+        .score-indo { background-color: #d4edda; border: 1px solid #c3e6cb; }
+
+        .score-title {
+            font-size: 13px;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .score-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        .error-message {
+            display: none;
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 5px solid #dc3545;
+            margin-top: 20px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="logo-purwo-baru.png" alt="Logo SD Negeri Purwoprajan" class="header-logo" onerror="this.src='https://via.placeholder.com/120?text=Logo+SD'">
+        <div class="header-title">Hasil Tes Kemampuan Akademik</div>
+        <div class="header-subtitle">SD Negeri Purwoprajan Kota Surakarta - Tahun 2026</div>
+
+        <div class="search-box">
+            <input type="text" id="inputName" class="search-input" placeholder="Ketik nama Anda di sini (contoh: Febiana)..." onkeypress="handleKeyPress(event)">
+            <button class="search-btn" type="button" onclick="cariSiswa()">Lihat Hasil TKA</button>
+        </div>
+
+        <div id="errorMessage" class="error-message">
+            Data siswa tidak ditemukan. Pastikan ketikan nama sudah benar atau gunakan kata kunci lain.
+        </div>
+
+        <div id="resultCard" class="result-card">
+            <div class="student-name-display" id="resNama">NAMA SISWA</div>
+            
+            <div class="data-row">
+                <span class="data-label">Nomor Peserta</span>
+                <span class="data-value" id="resNoPeserta">-</span>
+            </div>
+            
+            <div class="data-row">
+                <span class="data-label">NISN</span>
+                <span class="data-value" id="resNisn">-</span>
+            </div>
+            
+            <div class="data-row">
+                <span class="data-label">Tempat, Tanggal Lahir</span>
+                <span class="data-value" id="resTtl">-</span>
+            </div>
+
+            <div class="score-container">
+                <div class="score-box score-math">
+                    <div class="score-title">Matematika</div>
+                    <div class="score-value" id="resMtk">-</div>
+                </div>
+                <div class="score-box score-indo">
+                    <div class="score-title">Bahasa Indonesia</div>
+                    <div class="score-value" id="resBin">-</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        Dinas Pendidikan Kota Surakarta &copy; 2026<br>
+        Dicetak dari Sistem TKA Kemendikdasmen
+    </div>
+
+    <script>
+        const dataSiswa = [
+            { noPeserta: "T1-26-03-02-0152-0001-8", nisn: "0144106804", nama: "FEBIANA ORLIN SAFIRA WATI", ttl: "SURAKARTA, 7 Februari 2014", mtk: "60.00 (Baik)", bin: "83.33 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0002-7", nisn: "0134704495", nama: "ABDHIE RAJA SHALLOM", ttl: "SURAKARTA, 26 Desember 2013", mtk: "66.67 (Baik)", bin: "66.67 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0003-6", nisn: "0139479957", nama: "AIRA CHRISTIN ARDINA", ttl: "SURAKARTA, 12 September 2013", mtk: "53.33 (Memadai)", bin: "73.33 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0004-5", nisn: "0135268737", nama: "CEMARA GRACIA TYAS SETYANINGRUM", ttl: "SURAKARTA, 2 April 2013", mtk: "56.67 (Baik)", bin: "73.33 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0005-4", nisn: "0135659672", nama: "NIKITA ZAHRA SEPTIANI", ttl: "SURAKARTA, 9 September 2013", mtk: "63.33 (Baik)", bin: "80.00 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0006-3", nisn: "0136332045", nama: "EVANO GERARD ANDRIYANTO", ttl: "SURAKARTA, 26 April 2013", mtk: "56.67 (Baik)", bin: "76.67 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0007-2", nisn: "0132759320", nama: "ELSA DEVINA SAPUTRI", ttl: "SURAKARTA, 18 September 2013", mtk: "23.33 (Kurang)", bin: "53.33 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0008-9", nisn: "0142480708", nama: "GABRIEL TOMAS PAULINO", ttl: "SURAKARTA, 14 Januari 2014", mtk: "80.00 (Baik)", bin: "73.33 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0009-8", nisn: "0143002825", nama: "AULIEA MEYDIVA PUTRI KRISTIADI", ttl: "SURAKARTA, 13 Mei 2014", mtk: "53.33 (Memadai)", bin: "70.00 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0010-7", nisn: "0136820937", nama: "MUHAMMAD AKMAL SETIYARTO", ttl: "SURAKARTA, 5 Mei 2013", mtk: "40.00 (Memadai)", bin: "53.33 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0011-6", nisn: "0137763708", nama: "SOFIA CANDRA KIRANA", ttl: "SURAKARTA, 31 Maret 2013", mtk: "76.67 (Baik)", bin: "100.00 (Baik - Istimewa)" },
+            { noPeserta: "T1-26-03-02-0152-0012-5", nisn: "0134232333", nama: "PINKA MARSYA AVELINA", ttl: "SURAKARTA, 25 November 2013", mtk: "70.00 (Baik)", bin: "70.00 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0013-4", nisn: "0139376976", nama: "NABIL RIFA'I ANUGRAH", ttl: "SURAKARTA, 6 April 2013", mtk: "40.00 (Memadai)", bin: "66.67 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0014-3", nisn: "0139097587", nama: "JAVIER HAZEL ANINDITO", ttl: "SURAKARTA, 6 Juli 2013", mtk: "76.67 (Baik)", bin: "73.33 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0015-2", nisn: "0132864922", nama: "KENZIE OZORA", ttl: "SURAKARTA, 12 Oktober 2013", mtk: "20.00 (Kurang)", bin: "63.33 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0016-9", nisn: "0147458069", nama: "EL-QAIDA HAMDA CANTIKA BERLIAN", ttl: "SURAKARTA, 7 Maret 2014", mtk: "46.67 (Memadai)", bin: "66.67 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0017-8", nisn: "0134262817", nama: "MAISYARA SALSABILA", ttl: "SURAKARTA, 20 September 2013", mtk: "56.67 (Baik)", bin: "90.00 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0018-7", nisn: "0136428892", nama: "ANGELLA NATHASYA WIBOWO", ttl: "SURAKARTA, 20 Desember 2013", mtk: "53.33 (Memadai)", bin: "73.33 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0019-6", nisn: "3135903719", nama: "ATHIFAH BILQIS NURROHMAH", ttl: "SURAKARTA, 10 Oktober 2013", mtk: "50.00 (Memadai)", bin: "73.33 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0020-5", nisn: "0149953579", nama: "FAIRUZ DAHRY ABIYYU", ttl: "SURAKARTA, 15 Juni 2014", mtk: "46.67 (Memadai)", bin: "70.00 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0021-4", nisn: "0133593206", nama: "ISMAIL EKSA PRASETYA", ttl: "SURAKARTA, 30 September 2013", mtk: "56.67 (Baik)", bin: "50.00 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0022-3", nisn: "3135081582", nama: "NOVITHA ANGELINE BETHANIA PUTRI", ttl: "SURAKARTA, 14 November 2013", mtk: "73.33 (Baik)", bin: "93.33 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0023-2", nisn: "0132745465", nama: "ARYA FIRMANSYAH", ttl: "BATAM, 6 April 2013", mtk: "33.33 (Memadai)", bin: "60.00 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0024-9", nisn: "0143528668", nama: "REZA BLIAN ANGGARA", ttl: "SURAKARTA, 3 Februari 2014", mtk: "33.33 (Memadai)", bin: "80.00 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0025-8", nisn: "0138955435", nama: "ANNISA MULYASARI", ttl: "SURAKARTA, 28 Oktober 2013", mtk: "33.33 (Memadai)", bin: "83.33 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0026-7", nisn: "0133044470", nama: "AERILYN BELLVANIA SETIAWAN", ttl: "SURAKARTA, 13 Oktober 2013", mtk: "66.67 (Baik)", bin: "83.33 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0027-6", nisn: "3139036278", nama: "JEOVA OKTAVIAN SAPUTRO", ttl: "KARANGANYAR, 19 Oktober 2013", mtk: "56.67 (Baik)", bin: "86.67 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0028-5", nisn: "0132260100", nama: "GIBRAN KEANU ARIYANTO", ttl: "KARANGANYAR, 23 Desember 2013", mtk: "30.00 (Kurang)", bin: "80.00 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0029-4", nisn: "0134460097", nama: "TANISA FITRI RAHMADHANI", ttl: "SURAKARTA, 7 Agustus 2013", mtk: "53.33 (Memadai)", bin: "83.33 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0030-3", nisn: "0133843967", nama: "BRYAN RAMADHAN PUTRA MURYANTO", ttl: "SURAKARTA, 1 Agustus 2013", mtk: "56.67 (Baik)", bin: "66.67 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0031-2", nisn: "0131829760", nama: "MUHAMMAD RIZKY SANTOSO", ttl: "SURAKARTA, 13 Oktober 2013", mtk: "40.00 (Memadai)", bin: "76.67 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0032-9", nisn: "0149743167", nama: "GRIFON ARDILON JUNIOR PAMUNGKAS", ttl: "SURAKARTA, 11 Agustus 2014", mtk: "50.00 (Memadai)", bin: "73.33 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0033-8", nisn: "0147616998", nama: "ROSEAN DOA BINAR ALIZKHA", ttl: "DENPASAR, 31 Juli 2014", mtk: "73.33 (Baik)", bin: "86.67 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0034-7", nisn: "0138886301", nama: "MUHAMMAD FARID BACHTIAR", ttl: "SURAKARTA, 6 Mei 2013", mtk: "53.33 (Memadai)", bin: "73.33 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0035-6", nisn: "0137704644", nama: "GAVRIEL AZKA SETYAWAN", ttl: "SURAKARTA, 15 Agustus 2013", mtk: "53.33 (Memadai)", bin: "90.00 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0036-5", nisn: "0148815699", nama: "MAIYA ANGELINA EKA SARI", ttl: "SURAKARTA, 5 Mei 2014", mtk: "36.67 (Memadai)", bin: "70.00 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0037-4", nisn: "0133716170", nama: "SYAILENDRA RAFFA AUDITIRA", ttl: "SURAKARTA, 25 November 2013", mtk: "40.00 (Memadai)", bin: "60.00 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0038-3", nisn: "0132633848", nama: "YEMIMA ALEXANDRA", ttl: "SURAKARTA, 21 November 2013", mtk: "73.33 (Baik)", bin: "86.67 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0039-2", nisn: "0132852657", nama: "NAOMI CHRISTYA HARTANTO", ttl: "SURAKARTA, 27 September 2013", mtk: "63.33 (Baik)", bin: "86.67 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0040-9", nisn: "0134537097", nama: "AXCEL PUTRA DYANTO", ttl: "SURAKARTA, 16 November 2013", mtk: "43.33 (Memadai)", bin: "46.67 (Kurang)" },
+            { noPeserta: "T1-26-03-02-0152-0041-8", nisn: "0131001473", nama: "JIHAN ATIQA FAIHA", ttl: "SURAKARTA, 31 Agustus 2013", mtk: "46.67 (Memadai)", bin: "86.67 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0042-7", nisn: "0139943763", nama: "DIMAS ABIJAR FAHRI", ttl: "SURAKARTA, 1 Oktober 2013", mtk: "30.00 (Kurang)", bin: "36.67 (Kurang)" },
+            { noPeserta: "T1-26-03-02-0152-0043-6", nisn: "0135090397", nama: "ARDIKA CAHYA PRATAMA", ttl: "SURAKARTA, 30 Mei 2013", mtk: "53.33 (Memadai)", bin: "60.00 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0044-5", nisn: "0139934154", nama: "PASHA NOVA ALVIANO", ttl: "SURAKARTA, 20 November 2013", mtk: "30.00 (Kurang)", bin: "36.67 (Kurang)" },
+            { noPeserta: "T1-26-03-02-0152-0045-4", nisn: "0142858396", nama: "SHAQILLA NADIFA ARDHANI", ttl: "SURAKARTA, 22 Maret 2014", mtk: "53.33 (Memadai)", bin: "83.33 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0046-3", nisn: "0135092655", nama: "FIGA DUSANDEEN", ttl: "SURAKARTA, 1 Maret 2013", mtk: "60.00 (Baik)", bin: "70.00 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0047-2", nisn: "0136966159", nama: "JOLANDO VELIC VALARIAN GILBERTO", ttl: "SURAKARTA, 26 April 2013", mtk: "26.67 (Kurang)", bin: "60.00 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0048-9", nisn: "0136378024", nama: "PRAYOGA ADHIRAJASA", ttl: "SURAKARTA, 27 Juni 2013", mtk: "63.33 (Baik)", bin: "86.67 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0049-8", nisn: "0147107394", nama: "ADERA AYU BELLVANIA FEODORA", ttl: "SURAKARTA, 9 April 2014", mtk: "33.33 (Memadai)", bin: "66.67 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0050-7", nisn: "0139143482", nama: "ANDRIAN SULISTYO", ttl: "SURAKARTA, 14 Juni 2013", mtk: "40.00 (Memadai)", bin: "53.33 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0051-6", nisn: "0139012733", nama: "JIHAN ALISA MAKOTO", ttl: "SURAKARTA, 10 November 2013", mtk: "73.33 (Baik)", bin: "76.67 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0052-5", nisn: "0136918585", nama: "RAFFA AFIZUDDIN BAAHIR", ttl: "WONOGIRI, 6 Maret 2013", mtk: "53.33 (Memadai)", bin: "66.67 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0053-4", nisn: "0138627497", nama: "NOAH SACHIEL FALLO", ttl: "DENPASAR, 19 Januari 2013", mtk: "40.00 (Memadai)", bin: "56.67 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0054-3", nisn: "3131461707", nama: "RUBEN ZANU RIZQI WIBOWO", ttl: "SRAGEN, 13 Januari 2013", mtk: "63.33 (Baik)", bin: "90.00 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0055-2", nisn: "0148223174", nama: "ARVIN KHALFANI PERDANA", ttl: "SUKOHARJO, 16 Februari 2014", mtk: "73.33 (Baik)", bin: "80.00 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0056-9", nisn: "0125735923", nama: "FEBIAN OKTAVIANO", ttl: "SURAKARTA, 10 Oktober 2012", mtk: "26.67 (Kurang)", bin: "50.00 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0057-8", nisn: "0137994317", nama: "YASINTA VEGA", ttl: "SURAKARTA, 28 Juni 2013", mtk: "60.00 (Baik)", bin: "80.00 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0058-7", nisn: "0133264731", nama: "SABRINA PUTRIA NIDIANO", ttl: "SURAKARTA, 18 Mei 2013", mtk: "53.33 (Memadai)", bin: "80.00 (Baik)" },
+            { noPeserta: "T1-26-03-02-0152-0059-6", nisn: "0134044151", nama: "HANIFAH NOVI ISTIQOMAH", ttl: "SURAKARTA, 16 November 2013", mtk: "33.33 (Memadai)", bin: "66.67 (Memadai)" },
+            { noPeserta: "T1-26-03-02-0152-0060-5", nisn: "0131562041", nama: "LATIFA SYAHRA AYUNDA HAPSARI", ttl: "SURAKARTA, 24 Juni 2013", mtk: "36.67 (Memadai)", bin: "70.00 (Memadai)" }
+        ];
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                cariSiswa();
+            }
+        }
+
+        function cariSiswa() {
+            const inputElement = document.getElementById("inputName");
+            const inputName = inputElement.value.trim().toUpperCase();
+            const resultCard = document.getElementById("resultCard");
+            const errorMessage = document.getElementById("errorMessage");
+
+            // Reset tampilan
+            resultCard.style.display = "none";
+            errorMessage.style.display = "none";
+
+            if (inputName === "") {
+                return;
+            }
+
+            // MENGGUNAKAN .includes() AGAR PENCARIAN LEBIH FLEKSIBEL (Cukup ketik sebagian nama)
+            const siswaDitemukan = dataSiswa.find(s => s.nama.includes(inputName));
+
+            if (siswaDitemukan) {
+                // Tampilkan data ke HTML
+                document.getElementById("resNama").innerText = siswaDitemukan.nama;
+                document.getElementById("resNoPeserta").innerText = siswaDitemukan.noPeserta;
+                document.getElementById("resNisn").innerText = siswaDitemukan.nisn;
+                document.getElementById("resTtl").innerText = siswaDitemukan.ttl;
+                document.getElementById("resMtk").innerText = siswaDitemukan.mtk;
+                document.getElementById("resBin").innerText = siswaDitemukan.bin;
+                
+                resultCard.style.display = "block";
+            } else {
+                errorMessage.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
